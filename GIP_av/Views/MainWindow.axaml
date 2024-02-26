@@ -1,0 +1,43 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:GIP_av.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:GIP_av.Views"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="GIP_av.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="GIP_av"
+		Loaded="Window_Loaded"
+		ExtendClientAreaToDecorationsHint="True"
+		ExtendClientAreaChromeHints="NoChrome"
+		ExtendClientAreaTitleBarHeightHint="-1"
+		WindowState="Maximized"
+		SystemDecorations="BorderOnly">
+	<Grid Loaded="Grid_Loaded_1"
+					>
+		<Border
+			CornerRadius="15"
+			VerticalAlignment="Top"
+			Height="50"
+			Background="Aquamarine">
+			<TextBlock
+				VerticalAlignment="Center"
+			HorizontalAlignment="Center"
+			FontSize="24"
+			Padding="10 ,10"
+				
+				>
+				GIP terminal
+			</TextBlock>
+		</Border>
+
+		<TextBlock
+			x:Name="info"
+			Foreground="Black"
+			HorizontalAlignment="Center"
+			VerticalAlignment="Center">
+			Scan je leerlingenkaart.
+		</TextBlock>
+	</Grid>
+</Window>

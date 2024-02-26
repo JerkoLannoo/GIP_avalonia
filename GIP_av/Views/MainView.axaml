@@ -1,0 +1,40 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:GIP_av.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="GIP_av.Views.MainView"
+             x:DataType="vm:MainViewModel">
+  <Design.DataContext>
+    <!-- This only sets the DataContext for the previewer in an IDE,
+         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+    <vm:MainViewModel />
+  </Design.DataContext>
+	<Grid
+					>
+		<Border
+			CornerRadius="15"
+			VerticalAlignment="Top"
+			Height="50"
+			Background="Aquamarine">
+			<TextBlock
+				VerticalAlignment="Center"
+			HorizontalAlignment="Center"
+			FontSize="24"
+			Padding="10 ,10"
+				
+				>
+				GIP terminal
+			</TextBlock>
+		</Border>
+
+		<TextBlock
+			x:Name="info"
+			Foreground="Black"
+			HorizontalAlignment="Center"
+			VerticalAlignment="Center">
+			Scan je leerlingenkaart.
+		</TextBlock>
+	</Grid>
+</UserControl>
