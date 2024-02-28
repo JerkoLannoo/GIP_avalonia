@@ -122,4 +122,11 @@ public partial class AccountToevoegen : Window
 			Dispatcher.UIThread.Post(() => qrcodeIMG.Source = bitmap);
 		}
 	}
+
+	private void Button_Click_1(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+	{
+		MainWindow window = new MainWindow();
+		window.Show();
+		this.Close();
+	}
 }

@@ -4,7 +4,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="480"
         x:Class="GIP_av.AccountToevoegen"
-        Title="AccountToevoegen">
+        Title="AccountToevoegen"
+		ExtendClientAreaToDecorationsHint="True"
+		ExtendClientAreaChromeHints="NoChrome"
+		ExtendClientAreaTitleBarHeightHint="-1"
+		WindowState="Maximized"
+		SystemDecorations="BorderOnly">
 	<StackPanel Loaded="StackPanel_Loaded">
 		<TextBlock
 			FontSize="16"
@@ -27,5 +32,9 @@
 			Height="200"
 			Width="200"
 			></Image>
+		<Button
+			Click="Button_Click_1"
+			HorizontalAlignment="Center"
+			FontSize="16">Annuleren</Button>
 	</StackPanel>
 </Window>

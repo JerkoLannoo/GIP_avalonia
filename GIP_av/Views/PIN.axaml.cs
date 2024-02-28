@@ -53,9 +53,9 @@ public partial class PIN : Window
 					info.Text = "OK";//tekst op scherm aanpassen
 					okbtn.IsEnabled = false;//'OK' knop uitzetten
 					Data.pin = Convert.ToInt32(pin.Text);//pin-code in globale pin-code opslaan
-														 // dashboard dash = new dashboard();//nieuwe instantie van dashboard aanmaken
-														 //  dash.ShowDialog();//toon het dashboard
-					//this.Close();//sluit dit
+					Dashboard dash = new Dashboard();//nieuwe instantie van dashboard aanmaken
+					dash.Show();//toon het dashboard
+					this.Close();//sluit dit
 				}
 				else info.Text = "Verkeerde PIN-code";//ander is de pin-code verkeerd
 			}

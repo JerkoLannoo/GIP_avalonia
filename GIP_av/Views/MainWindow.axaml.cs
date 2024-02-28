@@ -111,7 +111,7 @@ public partial class MainWindow : Window
 			}
 			else//geen geldige reactie:
 			{
-				info.Text = "Kan de server niet bereiken.";
+				info.Text = "Kan de server niet bereiken.\nFoutcode: "+response.StatusCode;
 				// MessageBox.Show("Er ging iets mis.");//toon pop-up
 				code = "";//leeg de barcode
 						  // loading_icon.Visible = false;//verberg laad icoon
@@ -121,7 +121,7 @@ public partial class MainWindow : Window
 		catch (Exception ex)//als bovenste code mislukt:
 		{
 			Debug.WriteLine("ERROR: " + ex);
-			info.Text = "Kon server niet bereiken.";
+			info.Text = "Kon server niet bereiken.\n"+ex.Message;
 			code = "";//leeg barcode
 			status = 2;//zet status op 2
 			/* this.Invoke((MethodInvoker)delegate {//toegang krijgen tot andere taak
@@ -147,6 +147,6 @@ public partial class MainWindow : Window
 public class Data //globaal opslaan van data
 {
 	static public string bcode = "";//barcode
-	static public string server_address = "http://10.0.0.72";//IP-adres van server
+	static public string server_address = "http://172.22.120.20";//IP-adres van server
 	static public int pin;//pin-code
 }
