@@ -147,6 +147,6 @@ public partial class MainWindow : Window
 public class Data //globaal opslaan van data
 {
 	static public string bcode = "";//barcode
-	static public string server_address = "http://172.22.120.20";//IP-adres van server
+	static public string server_address = "http://10.0.0.72";//IP-adres van server
 	static public int pin;//pin-code
 }

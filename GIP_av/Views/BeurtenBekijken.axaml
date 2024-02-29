@@ -1,0 +1,38 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="GIP_av.BeurtenBekijken"
+        Title="BeurtenBekijken"
+		ExtendClientAreaToDecorationsHint="True"
+		ExtendClientAreaChromeHints="NoChrome"
+		ExtendClientAreaTitleBarHeightHint="-1"
+		WindowState="Maximized"
+		SystemDecorations="BorderOnly">
+	<StackPanel>
+		<DataGrid Loaded="DataGrid_Loaded"
+	  x:Name="beurtenGrid"
+	  Margin="20" ItemsSource="{Binding BuertenGRID}"
+	  IsReadOnly="True"
+	  CanUserReorderColumns="False"
+	  CanUserResizeColumns="False"
+	  CanUserSortColumns="True"
+	  GridLinesVisibility="All"
+	  BorderThickness="1" BorderBrush="Gray">
+			<DataGrid.Columns>
+				<DataGridTextColumn Header="Gebruikersnaam"  Binding="{Binding Gebruikersnaam}"
+									Width="250"/>
+				<DataGridTextColumn Header="Duratief" Binding="{Binding Duratief}" 
+									Width="200"/>
+				<DataGridTextColumn Header="Aantal apparaten" Binding="{Binding Devices}" 
+									Width="200"/>
+			</DataGrid.Columns>
+		</DataGrid>
+		<Button
+			FontSize="18"
+			HorizontalAlignment="Center"
+			VerticalAlignment="Bottom"
+			>Sluiten</Button>
+	</StackPanel>
+</Window>

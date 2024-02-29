@@ -84,4 +84,11 @@ public partial class Dashboard : Window
 		window.Show();
 		this.Close();
 	}
+
+	private void ViewBeurtenbtn(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+	{
+		BeurtenBekijken beurtenBekijken = new BeurtenBekijken();
+		beurtenBekijken.Show();
+		this.Close();
+	}
 }
