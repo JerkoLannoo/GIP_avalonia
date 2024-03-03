@@ -113,4 +113,11 @@ public partial class BeurtenBekijken : Window
 		public string username { get; set; }//gebruikersnaam
 		public string password { get; set; }//wachtwoord
 	}
+
+	private void Sluiten_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+	{
+		Dashboard da= new Dashboard();
+		da.Show();
+		this.Close();
+	}
 }

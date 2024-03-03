@@ -2,13 +2,11 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using SkiaSharp.QrCode;
-using SkiaSharp;
 using System.Drawing.Imaging;
 using System.IO;
-using Zen.Barcode;
 using System;
-using SkiaSharp.QrCode.Image;
+using ZXing;
+using ZXing.SkiaSharp;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using GIP_av.Views;
@@ -16,6 +14,9 @@ using System.Threading;
 using System.Diagnostics;
 using Avalonia.Threading;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using SkiaSharp.QrCode.Image;
+using SkiaSharp;
 //using System.Windows.Media.ImageSource;
 namespace GIP_av;
 
@@ -28,6 +29,7 @@ public partial class AccountToevoegen : Window
     }
 	private void StackPanel_Loaded(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
 	{
+		Debug.WriteLine("loaded...");
 		Socket();
 
 		/*using (MemoryStream stream = new MemoryStream())
@@ -66,10 +68,13 @@ public partial class AccountToevoegen : Window
 		{
 			text = response.GetValue<string>();
 			Debug.WriteLine("received code: " + text);
-			info.Text = "Kijk in uw mailbox voor een verificatie link.";//verander tekst
-			Dispatcher.UIThread.Post(() => info.Text = "Scan de QR-code of ga naar de site (tabblad \"Registreren via terminal\") en geef deze code in: ");
-			Dispatcher.UIThread.Post(() => code.Text = "");
-			Dispatcher.UIThread.Post(() => qrcodeIMG.IsVisible = false);
+			
+			Dispatcher.UIThread.Post(() =>
+			{
+				info.Text = "Kijk in uw mailbox voor een verificatie link.";//verander tekst
+				Dispatcher.UIThread.Post(() => code.Text = "");
+				Dispatcher.UIThread.Post(() => qrcodeIMG.IsVisible = false);
+			});
 			//code.Text = "";//doe de code weg
 			//qrcodeIMG.IsVisible = false;//maak de QR-code onzichtbaar
 		});
@@ -77,23 +82,23 @@ public partial class AccountToevoegen : Window
 		{
 			text = response.GetValue<string>();
 			Debug.WriteLine("received code: " + text);
-			Dispatcher.UIThread.Post(() => info.Text = "Voer de gegevens in op uw apparaat.");
-			//info.Text = "Voer de gegevens in op uw apparaat.";
-			Dispatcher.UIThread.Post(() => code.Text = "");
-			//code.Text = "";
-			Dispatcher.UIThread.Post(() => qrcodeIMG.IsVisible = false);
-			//qrcodeIMG.IsVisible = false;
+			Dispatcher.UIThread.Post(() =>
+			{
+				info.Text = "Voer de gegevens in op uw apparaat.";
+				code.Text = "";
+				qrcodeIMG.IsVisible = false;
+			});
 		});
 		client.On("end-connection", response =>//eindig de verbinding:
 		{
 			text = response.GetValue<string>();//lees code uit (overbodig)
 			Debug.WriteLine("received code: " + text);
-			Dispatcher.UIThread.Post(() => info.Text = text);
-			Dispatcher.UIThread.Post(() => code.Text = "");
-			Dispatcher.UIThread.Post(() => qrcodeIMG.IsVisible = false);
-			//info.Text = text;//toon code op scherm
-			//code.Text = "";//verberg code
-			//qrcodeIMG.IsVisible = false;//verberg QR-code
+			Dispatcher.UIThread.Post(() =>
+			{
+				info.Text = text;
+				code.Text = "";
+				qrcodeIMG.IsVisible = false;
+			});
 			Thread.Sleep(5000);
 			Dispatcher.UIThread.Post(() =>
 			{
@@ -111,16 +116,15 @@ public partial class AccountToevoegen : Window
 	}
 	private void createQRCode(string code)
 	{
-		BarcodeDraw barcodeDraw = BarcodeDrawFactory.CodeQr;
-		var barcodeBitmap = barcodeDraw.Draw("https://gip.jerkolannoo.com/register/remote-registration?code="+code, 60);
-		using (MemoryStream stream = new MemoryStream())//moet tijdenlijk opgeslagen worden in geheugen stream om van system.drawing.image naar avalonia.media.iimage te gaan
-		{
-			barcodeBitmap.Save(stream, ImageFormat.Png);//opslaan in geheugen
-			stream.Position = 0;//lezen vanaf byte 0
-								// Use Avalonia's Bitmap class to create a bitmap from the stream
-			var bitmap = new Bitmap(stream);
-			Dispatcher.UIThread.Post(() => qrcodeIMG.Source = bitmap);
-		}
+		Debug.WriteLine("generating code");
+		QrCode qrCode = new QrCode("https://gip.jerkolannoo.com/register/remote-registration?code="+code, new Vector2Slim(256, 256), SKEncodedImageFormat.Png);
+		Debug.WriteLine("code generated");
+		MemoryStream stream = new MemoryStream();//geen "using memorystream" gebruiken omdat de QR code anders niet geladen kan worden van de Bitmap
+		qrCode.GenerateImage(stream);
+		Debug.WriteLine("code saved");
+		stream.Seek(0, SeekOrigin.Begin);
+		stream.Position = 0;
+		Dispatcher.UIThread.Post(() => qrcodeIMG.Source = new Avalonia.Media.Imaging.Bitmap(stream));
 	}
 
 	private void Button_Click_1(object? sender, Avalonia.Interactivity.RoutedEventArgs e)

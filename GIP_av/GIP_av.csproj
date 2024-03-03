@@ -30,5 +30,7 @@
     <PackageReference Include="System.IO.Ports" Version="8.0.0" />
     <PackageReference Include="Zen.Barcode.Core" Version="2.0.0" />
     <PackageReference Include="Zen.Barcode.Rendering.Framework" Version="3.1.10729.1" />
+    <PackageReference Include="ZXing.Net" Version="0.16.9" />
+    <PackageReference Include="ZXing.Net.Bindings.SkiaSharp" Version="0.16.14" />
   </ItemGroup>
 </Project>

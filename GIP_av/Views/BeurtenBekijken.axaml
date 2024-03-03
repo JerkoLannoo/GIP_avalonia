@@ -13,7 +13,7 @@
 	<StackPanel>
 		<DataGrid Loaded="DataGrid_Loaded"
 	  x:Name="beurtenGrid"
-	  Margin="20" ItemsSource="{Binding BuertenGRID}"
+	  Margin="20"
 	  IsReadOnly="True"
 	  CanUserReorderColumns="False"
 	  CanUserResizeColumns="False"
@@ -30,9 +30,10 @@
 			</DataGrid.Columns>
 		</DataGrid>
 		<Button
-			FontSize="18"
-			HorizontalAlignment="Center"
-			VerticalAlignment="Bottom"
+	Click="Sluiten_Click"
+	FontSize="18"
+	HorizontalAlignment="Center"
+	VerticalAlignment="Bottom"
 			>Sluiten</Button>
 	</StackPanel>
 </Window>
