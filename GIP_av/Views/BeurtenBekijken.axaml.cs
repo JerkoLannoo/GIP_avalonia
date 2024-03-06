@@ -19,60 +19,52 @@ namespace GIP_av;
 
 public partial class BeurtenBekijken : Window
 {
-	ObservableCollection<JSON> BeurtenGRID { get; set; }//alleen lezen
+	ObservableCollection<BEURTINFO> BeurtenGRID { get; set; } = new ObservableCollection<BEURTINFO>();//in top of code
 	JSON[] jsonObjects;
 	private static readonly HttpClient client = new HttpClient();
 	public BeurtenBekijken()
     {
-        InitializeComponent();
+		InitializeComponent();
     }
 
 	private async void DataGrid_Loaded(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
 	{
-		await GetUserInfo();
+		await getUserInfo();
 	}
-	private async Task GetUserInfo()
+	private async Task getUserInfo()
 	{
-		var values = "{\"pincode\":\"1234" + "\", \"bcode\":\"42107" + "\"}";//JSON object maken
+		var values = "{\"pincode\":\""+Data.pin + "\", \"bcode\":\""+Data.bcode + "\"}";//maak JSON object
 		JObject json = JObject.Parse(values);
 		var jsonString = JsonConvert.SerializeObject(json);//omvormen naar JSON
-		var content = new StringContent(values, Encoding.UTF8, "application/json");//applicatie type zeggen tegen server
-		var response = await client.PostAsync(Data.server_address + "/get-guest-beurten", content);//POST request maken
-		Debug.WriteLine("fetching");
-		var responseString = await response.Content.ReadAsStringAsync();//lees reactie als string
-		if (response.StatusCode == HttpStatusCode.OK)//als server geldige reactie geeft:
+		var content = new StringContent(values, Encoding.UTF8, "application/json");//zeggen wat de content is tegen de server
+		var response = await client.PostAsync(Data.server_address + "/get-user-beurten", content);//POST request verzenden
+		Debug.WriteLine("fetching...");
+		var responseString = await response.Content.ReadAsStringAsync();
+		if (response.StatusCode == HttpStatusCode.OK)//als de server een geldige reactie heeft verzonden
 		{
 			Debug.WriteLine(responseString);
-			try//probeer dit (meerdere JSON objecten):
-			{
-				JSON[] jsonObj = JsonConvert.DeserializeObject<JSON[]>(responseString);//vorm reactie om naar C# objecten
-				List<JSON> list = new List<JSON>();
-				for (int i = 0; i < jsonObj.Length; i++)//doorloop alle objecten
+			Debug.WriteLine("fetched user beurten");
+			try
+			{//probeer eerst dit uit te voeren:
+				JSON[] jsonObj = JsonConvert.DeserializeObject<JSON[]>(responseString); //vorm het JSON object om naar een C# object
+				for (int i = 0; i < jsonObj.Length; i++)//doorloop alle rijen die server heeft doorgegeven
 				{
-					string pswd = "";//maak string om wachtwoord te verbergen
-					for (int y = 0; y < jsonObj[i].password.Length; y++) pswd += "*";//voeg '*' toe zodat het aantal '*' overeenkomt met de lengte van het wachtwoord 
-					list.Add(jsonObj[i]);
+					Debug.WriteLine("going trough loop, username: " + jsonObj[i].username);
+					BeurtenGRID.Add(new BEURTINFO( jsonObj[i].username, formatTime(Convert.ToInt32(jsonObj[i].time)).ToString(), jsonObj[i].devices.ToString()));//voeg rij toe
 				}
-				BeurtenGRID = new ObservableCollection<JSON>(list);
-				jsonObjects = jsonObj;//sla het object op in een variabele 
+				Debug.WriteLine(BeurtenGRID[0].Username.ToString()+" at try and has "+BeurtenGRID.Count + " rows");
 			}
-			catch//als dat niet lukt (één JSON object):
+			catch//als het bovenste niet lukt (er is maar één rij):
 			{
-				JSON jsonObj = new JSON//maak nieuw JSON object
-				{
-					username = JObject.Parse(responseString)["username"].ToString(),
-					time = JObject.Parse(responseString)["time"].ToString(),
-					devices = (int)JObject.Parse(responseString)["devices"]
-				};
-				string pswd = "";//zelfde als hierboven...
-				for (int y = 0; y < jsonObj.password.Length; y++) pswd += "*";
-				//dataView.Rows.Add(jsonObj.username, formatTime(Convert.ToInt32(jsonObj.time)), jsonObj.devices, pswd);
-				jsonObjects[0] = jsonObj;
+				BeurtenGRID.Add(new BEURTINFO(JObject.Parse(responseString)["username"].ToString(), JObject.Parse(responseString)["time"].ToString(), JObject.Parse(responseString)["devices"].ToString()));
+				Debug.WriteLine(BeurtenGRID[0].Username.ToString());
+				//jsonObjects[0] = jsonObj;//JSON object opslaan in variabele
 			}
+
 		}
-		else//als server geen geldige reactie geeft:
+		else
 		{
-			//this.Text = "Er ging iets mis." + response.StatusCode;//linksboven tekst veranderen
+			//this.Text = "Er ging iets mis." + response.StatusCode;//toon deze tekst in de linkerbovenhoek
 		}
 	}
 	private string formatTime(int time)//tijd formatteren
@@ -87,6 +79,17 @@ public partial class BeurtenBekijken : Window
 			return (time / 720) + " Maand(en)";
 		}
 		else return null;
+	}
+	public class BEURTINFO
+	{
+		public string Username { get; set; }
+		public string Time { get; set; }
+		public string Devices { get; set; }
+		public BEURTINFO(string username, string time, string devices) { 
+			Username = username;
+			Time = time;	
+			Devices = devices;	
+		}
 	}
 	class PRIJZEN
 	{
