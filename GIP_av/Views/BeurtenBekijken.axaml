@@ -15,7 +15,8 @@
 		<Design.DataContext>
 			<vm:MainViewModel></vm:MainViewModel>
 		</Design.DataContext>
-		<DataGrid Loaded="DataGrid_Loaded"
+		<ScrollViewer>
+			<DataGrid Loaded="DataGrid_Loaded"
 	  ItemsSource="{Binding BeurtenGRID}"
 	  Margin="20"
 	  IsReadOnly="False"
@@ -23,16 +24,18 @@
 	  CanUserResizeColumns="False"
 	  CanUserSortColumns="True"
 	  GridLinesVisibility="All"
-	  BorderThickness="1" BorderBrush="Gray">
-			<DataGrid.Columns>
-				<DataGridTextColumn Header="Gebruikersnaam"  Binding="{Binding Username}"
-									Width="300" />
-				<DataGridTextColumn Header="Duratief/Data" Binding="{Binding Time}" 
-									Width="200"/>
-				<DataGridTextColumn Header="Aantal apparaten" Binding="{Binding Devices}" 
-									Width="200"/>
-			</DataGrid.Columns>
-		</DataGrid>
+	  BorderThickness="1" BorderBrush="Gray"
+		  MaxHeight="350">
+				<DataGrid.Columns>
+					<DataGridTextColumn Header="Gebruikersnaam"  Binding="{Binding Username}"
+										Width="300" />
+					<DataGridTextColumn Header="Duratief/Data" Binding="{Binding Time}"
+										Width="200"/>
+					<DataGridTextColumn Header="Aantal apparaten" Binding="{Binding Devices}"
+										Width="200"/>
+				</DataGrid.Columns>
+			</DataGrid>
+		</ScrollViewer>
 		<Button
 	Click="Sluiten_Click"
 	FontSize="18"
