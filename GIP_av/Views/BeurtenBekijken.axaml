@@ -11,12 +11,18 @@
 		ExtendClientAreaTitleBarHeightHint="-1"
 		WindowState="Maximized"
 		SystemDecorations="BorderOnly">
-	<StackPanel>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"></RowDefinition>
+			<RowDefinition Height="60"
+						   ></RowDefinition>
+		</Grid.RowDefinitions>
 		<Design.DataContext>
 			<vm:MainViewModel></vm:MainViewModel>
 		</Design.DataContext>
 		<ScrollViewer>
 			<DataGrid Loaded="DataGrid_Loaded"
+					  
 	  ItemsSource="{Binding BeurtenGRID}"
 	  Margin="20"
 	  IsReadOnly="False"
@@ -28,11 +34,11 @@
 		  MaxHeight="350">
 				<DataGrid.Columns>
 					<DataGridTextColumn Header="Gebruikersnaam"  Binding="{Binding Username}"
-										Width="300" />
+										Width="*"/>
 					<DataGridTextColumn Header="Duratief/Data" Binding="{Binding Time}"
-										Width="200"/>
+										Width="*"/>
 					<DataGridTextColumn Header="Aantal apparaten" Binding="{Binding Devices}"
-										Width="200"/>
+										Width="*"/>
 				</DataGrid.Columns>
 			</DataGrid>
 		</ScrollViewer>
@@ -40,7 +46,8 @@
 	Click="Sluiten_Click"
 	FontSize="18"
 	HorizontalAlignment="Center"
-	VerticalAlignment="Bottom"
+	VerticalAlignment="Center"
+	Grid.Row="1"
 			>Sluiten</Button>
-	</StackPanel>
+	</Grid>
 </Window>
