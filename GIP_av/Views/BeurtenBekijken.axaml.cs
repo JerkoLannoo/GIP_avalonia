@@ -24,6 +24,7 @@ public partial class BeurtenBekijken : Window
 	private static readonly HttpClient client = new HttpClient();
 	public BeurtenBekijken()
     {
+		DataContext = this;
 		InitializeComponent();
     }
 
@@ -50,7 +51,7 @@ public partial class BeurtenBekijken : Window
 				for (int i = 0; i < jsonObj.Length; i++)//doorloop alle rijen die server heeft doorgegeven
 				{
 					Debug.WriteLine("going trough loop, username: " + jsonObj[i].username);
-					BeurtenGRID.Add(new BEURTINFO( jsonObj[i].username, formatTime(Convert.ToInt32(jsonObj[i].time)).ToString(), jsonObj[i].devices.ToString()));//voeg rij toe
+					BeurtenGRID.Add(new BEURTINFO( jsonObj[i].username, formatTime(Convert.ToInt32(jsonObj[i].time), Convert.ToInt32(jsonObj[i].data)).ToString(), jsonObj[i].devices.ToString()));//voeg rij toe
 				}
 				Debug.WriteLine(BeurtenGRID[0].Username.ToString()+" at try and has "+BeurtenGRID.Count + " rows");
 			}
@@ -67,18 +68,25 @@ public partial class BeurtenBekijken : Window
 			//this.Text = "Er ging iets mis." + response.StatusCode;//toon deze tekst in de linkerbovenhoek
 		}
 	}
-	private string formatTime(int time)//tijd formatteren
+	private string formatTime(int time, int data)//tijd formatteren
 	{
-		if (time < 24) return time + "h";
-		else if (time >= 24 && time < 720)
+		if (time > 0)
 		{
-			return (time / 24) + " Dag(en)";
+			if (time < 24) return time + "h";
+			else if (time >= 24 && time < 720)
+			{
+				return (time / 24) + " Dag(en)";
+			}
+			else if (time >= 720)
+			{
+				return (time / 720) + " Maand(en)";
+			}
+			else return null;
 		}
-		else if (time >= 720)
-		{
-			return (time / 720) + " Maand(en)";
+		else{
+			return data + " GB";
 		}
-		else return null;
+
 	}
 	public class BEURTINFO
 	{
@@ -115,6 +123,7 @@ public partial class BeurtenBekijken : Window
 		public int used { get; set; }//gebruikt
 		public string username { get; set; }//gebruikersnaam
 		public string password { get; set; }//wachtwoord
+		public string data { get; set; }//data
 	}
 
 	private void Sluiten_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
