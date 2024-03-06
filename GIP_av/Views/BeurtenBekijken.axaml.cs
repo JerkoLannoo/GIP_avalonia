@@ -20,7 +20,6 @@ namespace GIP_av;
 public partial class BeurtenBekijken : Window
 {
 	ObservableCollection<BEURTINFO> BeurtenGRID { get; set; } = new ObservableCollection<BEURTINFO>();//in top of code
-	JSON[] jsonObjects;
 	private static readonly HttpClient client = new HttpClient();
 	public BeurtenBekijken()
     {

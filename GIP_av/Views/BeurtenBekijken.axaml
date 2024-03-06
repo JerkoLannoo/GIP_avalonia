@@ -17,7 +17,6 @@
 		</Design.DataContext>
 		<DataGrid Loaded="DataGrid_Loaded"
 	  ItemsSource="{Binding BeurtenGRID}"
-	  x:Name="beurtenGrid"
 	  Margin="20"
 	  IsReadOnly="False"
 	  CanUserReorderColumns="False"

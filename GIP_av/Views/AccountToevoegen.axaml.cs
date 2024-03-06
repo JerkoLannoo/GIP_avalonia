@@ -5,8 +5,6 @@ using Avalonia.Markup.Xaml;
 using System.Drawing.Imaging;
 using System.IO;
 using System;
-using ZXing;
-using ZXing.SkiaSharp;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using GIP_av.Views;
