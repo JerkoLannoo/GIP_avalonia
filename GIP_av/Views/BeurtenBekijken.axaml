@@ -35,11 +35,17 @@
 										Width="*"/>
 					<DataGridTextColumn Header="Duratief/Data" Binding="{Binding Time}"
 										Width="*"/>
-					<DataGridTextColumn Header="Aantal apparaten" Binding="{Binding Devices}"
+					<DataGridTextColumn Header="Beschikbare/gebruikte apparaten" Binding="{Binding Devices}"
 										Width="*"/>
 				</DataGrid.Columns>
 			</DataGrid>
 		</ScrollViewer>
+		<CheckBox
+			x:Name="filterChk"
+			Click="filterChk_CheckedChanged"
+			Grid.Row="1"
+			Margin="20 0 0 0"
+			FontSize="18">Toon alleen geldig</CheckBox>
 		<Button
 	Click="Sluiten_Click"
 	FontSize="18"

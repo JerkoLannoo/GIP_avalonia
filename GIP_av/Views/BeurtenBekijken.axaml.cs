@@ -14,12 +14,14 @@ using System.Threading.Tasks;
 using System;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using Avalonia.Interactivity;
 
 namespace GIP_av;
 
 public partial class BeurtenBekijken : Window
 {
 	ObservableCollection<BEURTINFO> BeurtenGRID { get; set; } = new ObservableCollection<BEURTINFO>();//in top of code
+	JSON[] jsonObject;
 	private static readonly HttpClient client = new HttpClient();
 	public BeurtenBekijken()
     {
@@ -50,15 +52,22 @@ public partial class BeurtenBekijken : Window
 				for (int i = 0; i < jsonObj.Length; i++)//doorloop alle rijen die server heeft doorgegeven
 				{
 					Debug.WriteLine("going trough loop, username: " + jsonObj[i].username);
-					BeurtenGRID.Add(new BEURTINFO( jsonObj[i].username, formatTime(Convert.ToInt32(jsonObj[i].time), Convert.ToInt32(jsonObj[i].data)).ToString(), jsonObj[i].devices.ToString()));//voeg rij toe
+					BeurtenGRID.Add(new BEURTINFO( jsonObj[i].username, formatTime(Convert.ToInt32(jsonObj[i].time), Convert.ToInt32(jsonObj[i].data)).ToString(), jsonObj[i].used.ToString()+"/"+ jsonObj[i].devices.ToString()));//voeg rij toe
 				}
 				Debug.WriteLine(BeurtenGRID[0].Username.ToString()+" at try and has "+BeurtenGRID.Count + " rows");
+				jsonObject = jsonObj;
 			}
 			catch//als het bovenste niet lukt (er is maar één rij):
 			{
-				BeurtenGRID.Add(new BEURTINFO(JObject.Parse(responseString)["username"].ToString(), JObject.Parse(responseString)["time"].ToString(), JObject.Parse(responseString)["devices"].ToString()));
+				BeurtenGRID.Add(new BEURTINFO(JObject.Parse(responseString)["username"].ToString(), JObject.Parse(responseString)["time"].ToString(), JObject.Parse(responseString)["used"].ToString()+"/"+ JObject.Parse(responseString)["devices"].ToString()));
 				Debug.WriteLine(BeurtenGRID[0].Username.ToString());
-				//jsonObjects[0] = jsonObj;//JSON object opslaan in variabele
+				JSON jsonObj = new JSON
+				{//maak nieuw JSON object
+					username = JObject.Parse(responseString)["username"].ToString(),
+					time = JObject.Parse(responseString)["time"].ToString(),
+					devices = (int)JObject.Parse(responseString)["devices"]
+				};
+				jsonObject[0] = jsonObj ;//JSON object opslaan in variabele
 			}
 
 		}
@@ -130,5 +139,25 @@ public partial class BeurtenBekijken : Window
 		Dashboard da= new Dashboard();
 		da.Show();
 		this.Close();
+	}
+
+	protected virtual void  filterChk_CheckedChanged(object? sender, Avalonia.Interactivity.RoutedEventArgs e)//als de checkbox aangevinkt is
+	{
+		if (filterChk.IsChecked==true)
+		{
+			BeurtenGRID.Clear();//verwijder alle rijen van de tabel
+			for (int i = 0; i < jsonObject.Length; i++)//doorloop alle rijen
+			{
+				if (jsonObject[i].used == 0) BeurtenGRID.Add(new BEURTINFO(jsonObject[i].username, formatTime(Convert.ToInt32(jsonObject[i].time), Convert.ToInt32(jsonObject[i].data)), jsonObject[i].devices.ToString()));//voeg rij toe aan tabel als de beurt nog niet gebruikt is
+			}
+		}
+		else
+		{
+			BeurtenGRID.Clear();//verwijder alle rijen van de tabel
+			for (int i = 0; i < jsonObject.Length; i++)//doorloop alle rijen
+			{
+				BeurtenGRID.Add(new BEURTINFO(jsonObject[i].username, formatTime(Convert.ToInt32(jsonObject[i].time), Convert.ToInt32(jsonObject[i].data)), jsonObject[i].devices.ToString()));//voeg rij toe aan tabel als de beurt nog niet gebruikt is
+			}
+		}
 	}
 }
