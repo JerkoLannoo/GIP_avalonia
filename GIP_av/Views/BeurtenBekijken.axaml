@@ -33,7 +33,7 @@
 	  BorderThickness="1" BorderBrush="Gray">
 				<DataGrid.Columns>
 					<DataGridTextColumn Header="Gebruikersnaam"  Binding="{Binding Username}"
-										Width="*"/>
+										Width="250"/>
 					<DataGridTextColumn Header="Duratief/Data" Binding="{Binding Time}"
 										Width="*"/>
 					<DataGridTextColumn Header="Beschikbare/gebruikte apparaten" Binding="{Binding Devices}"
