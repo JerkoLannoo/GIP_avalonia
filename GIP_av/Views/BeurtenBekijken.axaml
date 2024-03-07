@@ -2,7 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="480"
         x:Class="GIP_av.BeurtenBekijken"
 		xmlns:vm="using:GIP_av.ViewModels"
         Title="BeurtenBekijken"
@@ -22,9 +22,10 @@
 		</Design.DataContext>
 		<ScrollViewer>
 			<DataGrid Loaded="DataGrid_Loaded"  
+					  Height="400"
 	  ItemsSource="{Binding BeurtenGRID}"
 	  Margin="20 20 20 0"
-	  IsReadOnly="False"
+	  IsReadOnly="True"
 	  CanUserReorderColumns="False"
 	  CanUserResizeColumns="False"
 	  CanUserSortColumns="True"

@@ -143,6 +143,7 @@ public partial class BeurtenBekijken : Window
 
 	protected virtual void  filterChk_CheckedChanged(object? sender, Avalonia.Interactivity.RoutedEventArgs e)//als de checkbox aangevinkt is
 	{
+		Debug.WriteLine("clicked show only valid");
 		if (filterChk.IsChecked==true)
 		{
 			BeurtenGRID.Clear();//verwijder alle rijen van de tabel
