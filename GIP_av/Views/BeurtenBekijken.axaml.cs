@@ -96,7 +96,7 @@ public partial class BeurtenBekijken : Window
 		}
 
 	}
-	public class BEURTINFO
+	class BEURTINFO
 	{
 		public string Username { get; set; }
 		public string Time { get; set; }
@@ -118,7 +118,7 @@ public partial class BeurtenBekijken : Window
 		public string success { get; set; }
 		public string msg { get; set; }
 	}
-	class JSON//C# object met naam JSON
+	public class JSON//C# object met naam JSON
 	{
 		public string email { get; set; }//e-mail
 		public int devices { get; set; }//apparaten

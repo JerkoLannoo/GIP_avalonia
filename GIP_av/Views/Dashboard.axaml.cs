@@ -35,7 +35,14 @@ public partial class Dashboard : Window
 		activeDevicesLbl.Text = devices.ToString();
 		activeGdevicesLbl.Text = gDevices.ToString();
 		nonActiveDevicesLbl.Text = nDevices.ToString();
-		nonActiveGDevicesLbl.Text = nGDevices.ToString();	
+		nonActiveGDevicesLbl.Text = nGDevices.ToString();
+		if(devices == 0&&nDevices==0) {
+			viewBeurtenbtn.IsEnabled = false;
+		}
+		if (gDevices == 0 && nGDevices == 0)
+		{
+			viewGBeurtenbtn.IsEnabled = false;//nog veranderen
+		}
 		//kredietLbl.Text = saldo;//toon salde
 		//activeGdevicesLbl.Text = gDevices.ToString();//toon aantal gast apparaten
 		//activeDevicesLbl.Text = devices.ToString();//toon aantal gewone apparaten
@@ -89,6 +96,24 @@ public partial class Dashboard : Window
 	{
 		BeurtenBekijken beurtenBekijken = new BeurtenBekijken();
 		beurtenBekijken.Show();
+		this.Close();
+	}
+	private void ViewGBeurtenbtn(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+	{
+		GastBuertenBekijken beurtenBekijken = new GastBuertenBekijken();
+		beurtenBekijken.Show();
+		this.Close();
+	}
+	private void addBeurt_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+	{
+		AddBeurt addBeurt = new AddBeurt();
+		addBeurt.Show();
+		this.Close();
+	}
+	private void addGBeurt_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+	{
+		AddGBeurt addGBeurt = new AddGBeurt();
+		addGBeurt.Show();
 		this.Close();
 	}
 }

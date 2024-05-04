@@ -59,6 +59,7 @@
 				HorizontalAlignment="Center"
 				VerticalAlignment="Center"
 				FontSize="18"
+				x:Name="viewBeurtenbtn"
 				Click="ViewBeurtenbtn">
 				Bekijken
 			</Button>
@@ -68,8 +69,32 @@
 			Grid.Row="2"
 			HorizontalAlignment="Center"
 			VerticalAlignment="Center"
-			FontSize="18">
+			FontSize="18"
+			x:Name="viewGBeurtenbtn"
+			Click="ViewGBeurtenbtn">
 				Bekijken
+			</Button>
+			<Button
+Grid.RowSpan="2"
+Grid.Column="3"
+Grid.Row="0"
+HorizontalAlignment="Center"
+VerticalAlignment="Center"
+FontSize="18"
+x:Name="AddBeurt"
+Click="addBeurt_Click">
+				Toevoegen
+			</Button>
+			<Button
+Grid.RowSpan="2"
+Grid.Column="3"
+Grid.Row="2"
+HorizontalAlignment="Center"
+VerticalAlignment="Center"
+FontSize="18"
+x:Name="AddGBeurt"
+Click="addGBeurt_Click">
+				Toevoegen
 			</Button>
 		</Grid>
 		<Button

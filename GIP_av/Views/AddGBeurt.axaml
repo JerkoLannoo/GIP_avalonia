@@ -1,0 +1,53 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="GIP_av.AddGBeurt"
+        Title="AddGBeurt"
+		ExtendClientAreaToDecorationsHint="True"
+		ExtendClientAreaChromeHints="NoChrome"
+		ExtendClientAreaTitleBarHeightHint="-1"
+		WindowState="Maximized"
+		SystemDecorations="BorderOnly">
+	<Grid Loaded="Grid_Loaded">
+		<TextBlock
+	VerticalAlignment="Top"
+HorizontalAlignment="Center"
+FontSize="24"
+Padding="10 ,10">
+			Gast beurt toevoegen
+		</TextBlock>
+		<TextBlock
+		VerticalAlignment="Top"
+		HorizontalAlignment="Center"
+		FontSize="18"
+		Padding="10 ,10"
+		Foreground="Red"
+		x:Name="prijsLbl">
+		</TextBlock>
+		<Grid
+			VerticalAlignment="Center"
+			ColumnDefinitions="180, 140,180"
+			ShowGridLines="False"
+			RowDefinitions="50, 50, 50, 50, 50,50"
+			Margin="10">
+			<Label Grid.Row="0" Grid.Column="0" FontSize="18" VerticalAlignment="Center">Duratief: </Label>
+			<NumericUpDown Grid.Row="0" Grid.Column="1" FontSize="18" Height="18" x:Name="duration" Increment="1" Value="1"
+						   ValueChanged="duration_ValueChanged" Minimum="1"/>
+			<ComboBox Grid.Row="0" Grid.Column="2"  FontSize="18" VerticalAlignment="Center" Height="30"
+					x:Name="lsTijden" SelectionChanged="lsTijden_SelectionChanged"></ComboBox>
+			<Label Grid.Row="1" Grid.Column="0" FontSize="18" VerticalAlignment="Center">Aantal apparaten:</Label>
+			<NumericUpDown Maximum="50" Minimum="1" FontSize="18" Height="30"
+						   Grid.Row="1" Grid.Column="1" x:Name="devices" Increment="1" Value="1"
+						   ValueChanged="devices_ValueChanged"></NumericUpDown>
+			<CheckBox Grid.Row="2" Grid.Column="0" FontSize="18" x:Name="adblockBtn">Adblock</CheckBox>
+			<TextBlock Grid.Row="3" Grid.Column="0" FontSize="18">Prijs:</TextBlock>
+			<TextBlock Grid.Row="3" Grid.Column="1" FontSize="18" FontWeight="Bold" x:Name="priceLbl">0€</TextBlock>
+			<TextBlock Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" FontSize="18" Foreground="Red">Let op: deze beurt zal direct geactiveerd worden!</TextBlock>
+			<TextBlock Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" FontSize="18" Foreground="Red" x:Name="infoLbl"></TextBlock>
+		</Grid>
+		<Button VerticalAlignment="Bottom" Margin="20" HorizontalAlignment="Center" FontSize="18" Click="Aanmaken_Click" x:Name="addBtn">Aanmaken</Button>
+		<Button VerticalAlignment="Bottom" Margin="20" HorizontalAlignment="Right" FontSize="18" Click="Button_Click_2">Sluiten</Button>
+	</Grid>
+</Window>

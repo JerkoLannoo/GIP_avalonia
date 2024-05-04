@@ -1,0 +1,25 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="480"
+        x:Class="GIP_av.Info"
+        Title="Info"
+		ExtendClientAreaToDecorationsHint="True"
+		ExtendClientAreaChromeHints="NoChrome"
+		ExtendClientAreaTitleBarHeightHint="-1"
+		WindowState="Maximized"
+		SystemDecorations="BorderOnly">
+	<Grid Loaded="Grid_Loaded">
+		<TextBlock x:Name="infoLbl"
+				   FontSize="18"
+				   VerticalAlignment="Center"
+				   HorizontalAlignment="Center"></TextBlock>
+		<Button
+			HorizontalAlignment="Center"
+			VerticalAlignment="Bottom"
+			Margin="10"
+			FontSize="18"
+			Click="Button_Click_1">Sluiten</Button>
+	</Grid>
+</Window>

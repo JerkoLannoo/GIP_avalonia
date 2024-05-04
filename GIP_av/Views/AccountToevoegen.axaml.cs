@@ -62,20 +62,6 @@ public partial class AccountToevoegen : Window
 			Dispatcher.UIThread.Post(() => code.Text = text);
 			//code.Text = text;//toon de code
 		});
-		client.On("register-status", response =>//als de gebruikt geregistreerd heeft:
-		{
-			text = response.GetValue<string>();
-			Debug.WriteLine("received code: " + text);
-			
-			Dispatcher.UIThread.Post(() =>
-			{
-				info.Text = "Kijk in uw mailbox voor een verificatie link.";//verander tekst
-				Dispatcher.UIThread.Post(() => code.Text = "");
-				Dispatcher.UIThread.Post(() => qrcodeIMG.IsVisible = false);
-			});
-			//code.Text = "";//doe de code weg
-			//qrcodeIMG.IsVisible = false;//maak de QR-code onzichtbaar
-		});
 		client.On("scan-status", response =>//als de gebruiker de QR-code gescant heeft:
 		{
 			text = response.GetValue<string>();
@@ -93,7 +79,7 @@ public partial class AccountToevoegen : Window
 			Debug.WriteLine("received code: " + text);
 			Dispatcher.UIThread.Post(() =>
 			{
-				info.Text = text;
+				info.Text = "Kijk in uw mailbox voor een verificatie link. Dit venster sluit over 5 seconden.";
 				code.Text = "";
 				qrcodeIMG.IsVisible = false;
 			});

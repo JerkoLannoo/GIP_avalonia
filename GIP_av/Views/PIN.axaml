@@ -11,113 +11,115 @@
 		ExtendClientAreaTitleBarHeightHint="-1"
 		WindowState="Maximized"
 		SystemDecorations="BorderOnly">
-	<StackPanel
-				   x:Name="pinfield"
-				   HorizontalAlignment="Center"
-				   VerticalAlignment="Center">
-		<TextBlock
-			Margin="0,10"
-			x:Name="info">PIN-code:</TextBlock>
-		<TextBox
-			Margin="0,10"
-			PasswordChar="*"
-			x:Name="pin"></TextBox>
-
-
 		<StackPanel
+			   x:Name="pinfield"
+			   HorizontalAlignment="Center"
+			   VerticalAlignment="Center">
+			<TextBlock
+				Margin="0,10"
+				x:Name="info">PIN-code:</TextBlock>
+			<TextBox
+				Margin="0,10"
+				PasswordChar="*"
+				x:Name="pin"></TextBox>
+
+
+			<StackPanel
+		Orientation="Horizontal"
+		>
+				<Button Width="50"
+						Height="50"
+						HorizontalContentAlignment="Center"
+						VerticalContentAlignment="Center"
+						Click="Button_Click_2"
+						Tag="1">1</Button>
+				<Button Width="50"
+						Height="50"
+						HorizontalContentAlignment="Center"
+						VerticalContentAlignment="Center"
+						Click="Button_Click_2"
+						Tag="2">2</Button>
+				<Button Width="50"
+						Height="50"
+						HorizontalContentAlignment="Center"
+						VerticalContentAlignment="Center"
+						Click="Button_Click_2"
+						Tag="3">3</Button>
+			</StackPanel>
+			<StackPanel
 	Orientation="Horizontal"
 		>
-			<Button Width="50"
-					Height="50"
-					HorizontalContentAlignment="Center"
-					VerticalContentAlignment="Center"
-					Click="Button_Click_2"
-					Tag="1">1</Button>
-			<Button Width="50"
-					Height="50"
-					HorizontalContentAlignment="Center"
-					VerticalContentAlignment="Center"
-					Click="Button_Click_2"
-					Tag="2">2</Button>
-			<Button Width="50"
-					Height="50"
-					HorizontalContentAlignment="Center"
-					VerticalContentAlignment="Center"
-					Click="Button_Click_2"
-					Tag="3">3</Button>
-		</StackPanel>
-		<StackPanel
-Orientation="Horizontal"
+				<Button Width="50"
+						Height="50"
+						HorizontalContentAlignment="Center"
+						VerticalContentAlignment="Center"
+						Click="Button_Click_2"
+						Tag="4">4</Button>
+				<Button Width="50"
+						Height="50"
+						HorizontalContentAlignment="Center"
+						VerticalContentAlignment="Center"
+						Click="Button_Click_2"
+						Tag="5">5</Button>
+				<Button Width="50"
+						Height="50"
+						HorizontalContentAlignment="Center"
+						VerticalContentAlignment="Center"
+						Click="Button_Click_2"
+						Tag="6">6</Button>
+			</StackPanel>
+			<StackPanel
+	Orientation="Horizontal"
 		>
-			<Button Width="50"
-					Height="50"
-					HorizontalContentAlignment="Center"
-					VerticalContentAlignment="Center"
-					Click="Button_Click_2"
-					Tag="4">4</Button>
-			<Button Width="50"
-					Height="50"
-					HorizontalContentAlignment="Center"
-					VerticalContentAlignment="Center"
-					Click="Button_Click_2"
-					Tag="5">5</Button>
-			<Button Width="50"
-					Height="50"
-					HorizontalContentAlignment="Center"
-					VerticalContentAlignment="Center"
-					Click="Button_Click_2"
-					Tag="6">6</Button>
-		</StackPanel>
-		<StackPanel
-Orientation="Horizontal"
+				<Button Width="50"
+						Height="50"
+						HorizontalContentAlignment="Center"
+						VerticalContentAlignment="Center"
+						Click="Button_Click_2"
+						Tag="7">7</Button>
+				<Button Width="50"
+						Height="50"
+						HorizontalContentAlignment="Center"
+						VerticalContentAlignment="Center"
+						Click="Button_Click_2"
+						Tag="8">8</Button>
+				<Button Width="50"
+						Height="50"
+						HorizontalContentAlignment="Center"
+						VerticalContentAlignment="Center"
+						Click="Button_Click_2"
+						Tag="9">9</Button>
+			</StackPanel>
+			<StackPanel
+	Orientation="Horizontal"
 		>
-			<Button Width="50"
-					Height="50"
-					HorizontalContentAlignment="Center"
-					VerticalContentAlignment="Center"
-					Click="Button_Click_2"
-					Tag="7">7</Button>
-			<Button Width="50"
-					Height="50"
-					HorizontalContentAlignment="Center"
-					VerticalContentAlignment="Center"
-					Click="Button_Click_2"
-					Tag="8">8</Button>
-			<Button Width="50"
-					Height="50"
-					HorizontalContentAlignment="Center"
-					VerticalContentAlignment="Center"
-					Click="Button_Click_2"
-					Tag="9">9</Button>
-		</StackPanel>
-		<StackPanel
-Orientation="Horizontal"
-		>
-			<Button Width="50"
-					Height="50"
-					HorizontalContentAlignment="Center"
-					VerticalContentAlignment="Center"
-					Click="Button_Click_2"
-					Tag="C">C</Button>
-			<Button Width="100"
-					Height="50"
-					HorizontalContentAlignment="Center"
-					VerticalContentAlignment="Center"
-					Click="Button_Click_2"
-					Tag="D"
+				<Button Width="50"
+						Height="50"
+						HorizontalContentAlignment="Center"
+						VerticalContentAlignment="Center"
+						Click="Button_Click_2"
+						Tag="C">0</Button>
+				<Button Width="100"
+						Height="50"
+						HorizontalContentAlignment="Center"
+						VerticalContentAlignment="Center"
+						Click="Button_Click_2"
+						Tag="D"
 					>
-				<Image Source="/Assets/backspace.png"></Image>
-			</Button>
+					<Image Source="/Assets/backspace.png"></Image>
+				</Button>
+			</StackPanel>
+			<StackPanel
+				Orientation="Horizontal">
+				<Button
+		x:Name="okbtn"
+		Margin="0,10" Click="Button_Click">Login</Button>
+				<Button
+					Click="btnClose_Click">Annuleren</Button>
+			</StackPanel>
+			<StackPanel>
+				<TextBlock
+				x:Name="doubleTapLbl"></TextBlock>
+			</StackPanel>
 		</StackPanel>
-		<StackPanel
-			Orientation="Horizontal">
-
-			<Button
-	x:Name="okbtn"
-	Margin="0,10" Click="Button_Click">Login</Button>
-			<Button
-				Click="btnClose_Click">Annuleren</Button>
-		</StackPanel>
-
-	</StackPanel>
-</Window>
+	</Window>

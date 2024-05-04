@@ -51,7 +51,7 @@ public partial class MainWindow : Window
 				dev = dev.Substring(0, dev.IndexOf(")"));
 				dev = dev.ToUpper();
 			}
-			if (s.GetFriendlyName().StartsWith("/dev/ttyUSB0"))
+			if (s.GetFriendlyName().StartsWith("/dev/ttyUSB"))
 			{
 				Debug.WriteLine(s.GetFriendlyName() + " is the device name");
 				dev = s.GetFriendlyName();
@@ -90,6 +90,7 @@ public partial class MainWindow : Window
 				Debug.WriteLine("login: " + login);
 				if (login)
 				{
+					Data.doubleTap = Convert.ToInt32(jsonObject["doubleTap"]);
 					sport.Close();
 					info.Text = "OK.";
 					PIN pin = new PIN();
@@ -147,6 +148,7 @@ public partial class MainWindow : Window
 public class Data //globaal opslaan van data
 {
 	static public string bcode = "";//barcode
-	static public string server_address = "http://10.0.0.72";//IP-adres van server
+	static public string server_address = "http://192.168.100.3:80";//IP-adres van server
 	static public int pin;//pin-code
+	static public int doubleTap;
 }
