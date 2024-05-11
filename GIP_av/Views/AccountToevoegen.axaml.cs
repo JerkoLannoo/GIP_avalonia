@@ -29,24 +29,6 @@ public partial class AccountToevoegen : Window
 	{
 		Debug.WriteLine("loaded...");
 		Socket();
-
-		/*using (MemoryStream stream = new MemoryStream())
-		{
-			data.SaveTo(stream);
-			var bitmap = new Image();
-			qrcodeIMG.Source = new Avalonia.Media.Imaging.Bitmap(stream);
-		}*/
-		// Replace the text below with the content you want in the QR code
-
-		/*QRCodeGenerator qrGenerator = new QRCodeGenerator();
-		QRCodeData qrCodeData = qrGenerator.CreateQrCode(“Hello MAUI”, QRCodeGenerator.ECCLevel.L);
-
-		PngByteQRCode qRCode = new PngByteQRCode(qrCodeData);
-		byte[] qrCodeBytes = qRCode.GetGraphic(20);
-		ImageSource qrImageSource = ImageSource.FromStream(() => new MemoryStream(qrCodeBytes));
-		CodeQrBarcodeDraw qrcode = BarcodeDrawFactory.CodeQr;//maak een nieuwe QR-code 
-		qrcodeImage.DataContext = qrcode.Draw("https://gip.jerkolannoo.com/register/remote-registration?code=", 60);//teken de QR-code met https://gip.jerkolannoo.be/register/remote-registration?code=+codelbl.Text als waarde
-	*/
 	}
 	private void Socket()
 	{
@@ -84,7 +66,7 @@ public partial class AccountToevoegen : Window
 				qrcodeIMG.IsVisible = false;
 			});
 			Thread.Sleep(5000);
-			Dispatcher.UIThread.Post(() =>
+			Dispatcher.UIThread.Post(() =>//toewijzen aan andere thread
 			{
 				MainWindow window = new MainWindow();
 				window.Show();
@@ -93,12 +75,12 @@ public partial class AccountToevoegen : Window
 		});
 		client.OnConnected += async (sender, e) =>//verbindt met de server
 		{
-			await client.EmitAsync("get-code", Data.bcode);//vraag om code aan server
+			await client.EmitAsync("get-code", Data.bcode, Data.key);//vraag om code aan server
 			Debug.WriteLine("request send");
 		};
 		 client.ConnectAsync();//wacht totdat hij verbonden is met server
 	}
-	private void createQRCode(string code)
+	private void createQRCode(string code)//QR code aanmaken
 	{
 		Debug.WriteLine("generating code");
 		QrCode qrCode = new QrCode("https://gip.jerkolannoo.com/register/remote-registration?code="+code, new Vector2Slim(256, 256), SKEncodedImageFormat.Png);
@@ -111,7 +93,7 @@ public partial class AccountToevoegen : Window
 		Dispatcher.UIThread.Post(() => qrcodeIMG.Source = new Avalonia.Media.Imaging.Bitmap(stream));
 	}
 
-	private void Button_Click_1(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+	private void Button_Click_1(object? sender, Avalonia.Interactivity.RoutedEventArgs e)//als er op sluiten wordt gedrukt
 	{
 		MainWindow window = new MainWindow();
 		window.Show();

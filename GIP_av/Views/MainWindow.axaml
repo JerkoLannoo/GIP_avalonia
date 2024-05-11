@@ -8,7 +8,6 @@
         x:Class="GIP_av.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="GIP_av"
-		Loaded="Window_Loaded"
 		ExtendClientAreaToDecorationsHint="True"
 		ExtendClientAreaChromeHints="NoChrome"
 		ExtendClientAreaTitleBarHeightHint="-1"

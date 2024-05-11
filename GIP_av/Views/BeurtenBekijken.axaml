@@ -21,7 +21,7 @@
 			<vm:MainViewModel></vm:MainViewModel>
 		</Design.DataContext>
 		<ScrollViewer>
-			<DataGrid Loaded="DataGrid_Loaded"  
+			<DataGrid Loaded="DataGrid_Loaded"
 					  Height="400"
 	  ItemsSource="{Binding BeurtenGRID}"
 	  Margin="20 20 20 0"

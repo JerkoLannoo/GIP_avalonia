@@ -65,7 +65,7 @@ public partial class AddBeurt : Window
 		addBtn.IsEnabled = false;
 		try//proberen aanvraag naar server te versturen
 		{
-			var values = "{\"pincode\":\"" + Data.pin + "\", \"bcode\":\"" + Data.bcode + "\", \"duration\":\"" + formatTime((decimal)duration.Value) + "\", \"devices\":\"" + devices.Text + "\", \"adblock\":\"" + adblockBtn.IsChecked + "\"}";//JSON object
+			var values = "{\"pincode\":\"" + Data.pin + "\", \"bcode\":\"" + Data.bcode + "\", \"duration\":\"" + formatTime((decimal)duration.Value) + "\", \"devices\":\"" + devices.Text + "\", \"adblock\":\"" + adblockBtn.IsChecked + "\", \"key\":\"" + Data.key + "\"}";//JSON object
 			JObject json = JObject.Parse(values);//omvormer naar JSON
 			var jsonString = JsonConvert.SerializeObject(json);
 			var content = new StringContent(values, Encoding.UTF8, "application/json");
@@ -82,9 +82,6 @@ public partial class AddBeurt : Window
 					Info info =  new Info();
 					info.Show();
 					this.Close();
-					//	Dashboard dash = new Dashboard();//maak een nieuw dashboard aan
-					//	dash.Show();//toon dashboard
-					//	this.Close();//sluit dit venster
 				}
 				else
 				{
@@ -104,9 +101,7 @@ public partial class AddBeurt : Window
 			infoLbl.Text = "Er ging iets mis.";
 			addBtn.IsEnabled = true;//ze de toevoeg knop terug aan
 		}
-
 	}
-
 	private async void Aanmaken_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
 	{
 		await SendInfo();

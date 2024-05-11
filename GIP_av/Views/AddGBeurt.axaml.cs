@@ -61,7 +61,7 @@ public partial class AddGBeurt : Window
 		addBtn.IsEnabled = false;
 		try//proberen aanvraag naar server te versturen
 		{
-			var values = "{\"pincode\":\"" + Data.pin + "\", \"bcode\":\"" + Data.bcode + "\", \"duration\":\"" + formatTime((decimal)duration.Value) + "\", \"devices\":\"" + devices.Text + "\", \"adblock\":\"" + adblockBtn.IsChecked + "\"}";//JSON object
+			var values = "{\"pincode\":\"" + Data.pin + "\", \"bcode\":\"" + Data.bcode + "\", \"duration\":\"" + formatTime((decimal)duration.Value) + "\", \"devices\":\"" + devices.Text + "\", \"adblock\":\"" + adblockBtn.IsChecked + "\", \"key\":\"" + Data.key + "\"}";//JSON object
 			JObject json = JObject.Parse(values);//omvormer naar JSON
 			var jsonString = JsonConvert.SerializeObject(json);
 			var content = new StringContent(values, Encoding.UTF8, "application/json");

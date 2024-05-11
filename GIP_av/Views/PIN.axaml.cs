@@ -37,7 +37,7 @@ public partial class PIN : Window
 		try//probeer eerst dit:
 		{
 			info.Text = "Wacht even...";//verander tekst
-			var values = "{\"pincode\":\"" + pin.Text + "\", \"bcode\":\"" + Data.bcode + "\"}";//maak JSON object
+			var values = "{\"pincode\":\"" + pin.Text + "\", \"bcode\":\"" + Data.bcode + "\",\"key\":\"" + Data.key + "\"}";//maak JSON object
 			Debug.WriteLine(values);
 			JObject json = JObject.Parse(values);
 			var jsonString = JsonConvert.SerializeObject(json);//object omvormer naar JSON
@@ -130,7 +130,7 @@ public partial class PIN : Window
 		sport.BaudRate = 9600;
 		string dev = "";
 		//info.Text += "\n";
-		foreach (SerialDevice s in DeviceList.Local.GetSerialDevices())
+		foreach (SerialDevice s in DeviceList.Local.GetSerialDevices())//opnieuw zoeken naar NFC reader
 		{
 			//info.Text += s.GetFriendlyName() + " - " + s.GetFileSystemName() + "\n";
 			Debug.WriteLine("Device: " + s.GetFriendlyName());
@@ -148,7 +148,7 @@ public partial class PIN : Window
 			}
 		}
 		Debug.WriteLine("De gevonden COM poort is:" + dev);
-		if (dev.Length > 0)
+		if (dev.Length > 0)//als er een reader gevonden is
 		{
 		//	info.Text = "Scan je leerlingenkaart.";
 			sport.PortName = dev;
@@ -183,9 +183,9 @@ public partial class PIN : Window
 		Debug.WriteLine("pressed" + pincode);
 	}
 
-	private void btnClose_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+	private void btnClose_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)//als er op sluiten gesukt wordt
 	{
-		sport.Close();
+		sport.Close();//sluit seriële poort
 		MainWindow window = new MainWindow();
 		window.Show();
 		this.Close();

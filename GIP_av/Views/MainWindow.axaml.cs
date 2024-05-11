@@ -28,33 +28,27 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
     }
-
-	private void Window_Loaded(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-	{
-	}
-
-	private void Grid_Loaded_1(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+	private void Grid_Loaded_1(object? sender, Avalonia.Interactivity.RoutedEventArgs e)//als de grid geladen wordt zoeken we naar de NFC reader
 	{
 		DeviceList devices = DeviceList.Local;
-
 		sport.BaudRate = 9600;
 		string dev = "";
 		info.Text += "\n";
-		foreach (SerialDevice s in DeviceList.Local.GetSerialDevices())
+		foreach (SerialDevice s in DeviceList.Local.GetSerialDevices())//gebruik HidSharp om de naam de verkrijgen van alle seriële poorten
 		{
 			info.Text += s.GetFriendlyName() +" - "+s.GetFileSystemName()+"\n";
 			Debug.WriteLine("Device: "+s.GetFriendlyName());
-			if (s.GetFriendlyName().StartsWith("USB-SERIAL CH340"))
+			if (s.GetFriendlyName().StartsWith("USB-SERIAL CH340"))//voor windows (voor testen)
 			{
 				Debug.WriteLine(s.GetFriendlyName()+" is the device name");
-				dev = s.GetFriendlyName().Substring(s.GetFriendlyName().IndexOf("(") + 1);
-				dev = dev.Substring(0, dev.IndexOf(")"));
-				dev = dev.ToUpper();
+				dev = s.GetFriendlyName().Substring(s.GetFriendlyName().IndexOf("(") + 1);//het woord '(COM)' eruit halen
+				dev = dev.Substring(0, dev.IndexOf(")"));//het woord '(COM)' eruit halen
+				dev = dev.ToUpper();//alles naar grote letters, voor de zekerheid
 			}
-			if (s.GetFriendlyName().StartsWith("/dev/ttyUSB"))
+			if (s.GetFriendlyName().StartsWith("/dev/ttyUSB"))//voor linux
 			{
 				Debug.WriteLine(s.GetFriendlyName() + " is the device name");
-				dev = s.GetFriendlyName();
+				dev = s.GetFriendlyName();//geen stripping van naam nodig in linux (woord '(COM)' komt er niet in voor)
 			}
 		}
 		Debug.WriteLine("De gevonden COM poort is:" + dev);
@@ -74,7 +68,7 @@ public partial class MainWindow : Window
 		try//probeer dit:
 		{
 			Debug.WriteLine(Data.bcode);
-			string values = "{\"bcode\":\"" + Data.bcode + "\"}";//maak JSON string
+			string values = "{\"bcode\":\"" + Data.bcode + "\",\"key\":\"" + Data.key + "\"}";//maak JSON string
 			JObject json = JObject.Parse(values);
 			var jsonString = JsonConvert.SerializeObject(json);//omvormen naar JSON
 			var content = new StringContent(values, Encoding.UTF8, "application/json");//content type zeggen tegen server
@@ -88,7 +82,7 @@ public partial class MainWindow : Window
 				string value = jsonObject["login"].ToString();//neem login attribuut van object en sla op als string
 				login = Convert.ToBoolean(value);//sla login op als bool (true of false)
 				Debug.WriteLine("login: " + login);
-				if (login)
+				if (login)//als login 'true' is, sluit COM poort, dit venster en toon login scherm
 				{
 					Data.doubleTap = Convert.ToInt32(jsonObject["doubleTap"]);
 					sport.Close();
@@ -98,7 +92,7 @@ public partial class MainWindow : Window
 					this.Close();
 					info.Text = "Scan je leerlingenkaart.";
 				}
-				else
+				else//anders: toon geen account scherm
 				{
 					sport.Close();
 					GeenAccount account = new GeenAccount();
@@ -125,11 +119,6 @@ public partial class MainWindow : Window
 			info.Text = "Kon server niet bereiken.\n"+ex.Message;
 			code = "";//leeg barcode
 			status = 2;//zet status op 2
-			/* this.Invoke((MethodInvoker)delegate {//toegang krijgen tot andere taak
-				 info.Text = "Scan je leerlingenkaart.";
-				 loading_icon.Visible = false;//verberg laad icoon
-				 info.Update();//update de tekst
-			 });*/
 		}
 	}
 
@@ -142,13 +131,13 @@ public partial class MainWindow : Window
 		Debug.Write(indata);
 		if(indata.Length>0) Data.bcode = indata;
 		Dispatcher.UIThread.Post(async () => await SendInfo());
-		// `Run` blocks until all async work is done.
 	}
 }
 public class Data //globaal opslaan van data
 {
 	static public string bcode = "";//barcode
-	static public string server_address = "http://192.168.100.3:80";//IP-adres van server
+	static public string server_address = "https://192.168.100.3:443";//IP-adres van server
+	static public string key = "TG9KNHRJRDhSaUtMcjdueFZRU1RUREU5ZEs3a1Zo";
 	static public int pin;//pin-code
-	static public int doubleTap;
+	static public int doubleTap;//snel registreren (hier wordt MAC-adres in opgeslagen)
 }

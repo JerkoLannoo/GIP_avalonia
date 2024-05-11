@@ -2,7 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="480"
         x:Class="GIP_av.AddGBeurt"
         Title="AddGBeurt"
 		ExtendClientAreaToDecorationsHint="True"
@@ -15,14 +15,14 @@
 	VerticalAlignment="Top"
 HorizontalAlignment="Center"
 FontSize="24"
-Padding="10 ,10">
+Margin="50 ,10">
 			Gast beurt toevoegen
 		</TextBlock>
 		<TextBlock
 		VerticalAlignment="Top"
 		HorizontalAlignment="Center"
 		FontSize="18"
-		Padding="10 ,10"
+		Padding="10 ,50"
 		Foreground="Red"
 		x:Name="prijsLbl">
 		</TextBlock>

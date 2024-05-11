@@ -11,9 +11,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System;
-
 namespace GIP_av;
-
 public partial class Dashboard : Window
 {
 	private static readonly HttpClient client = new HttpClient();
@@ -43,19 +41,12 @@ public partial class Dashboard : Window
 		{
 			viewGBeurtenbtn.IsEnabled = false;//nog veranderen
 		}
-		//kredietLbl.Text = saldo;//toon salde
-		//activeGdevicesLbl.Text = gDevices.ToString();//toon aantal gast apparaten
-		//activeDevicesLbl.Text = devices.ToString();//toon aantal gewone apparaten
-		//nonActiveDevicesLbl.Text = nDevices.ToString();//toon aantal niet geactiveerde apparaten
-		//nonActiveGDevicesLbl.Text = nGDevices.ToString();//toon aantal niet geactiveerde gast apparaten
-		//if (nGDevices + gDevices > 0) showGDeviceInfo.Enabled = true;//zet 'gast apparaat info' knop aan als totaal aantal gast apparaten groter is dan 0
-		//if (nDevices + devices > 0) showDeviceInfo.Enabled = true;//zet 'apparaat info' knop aan als totaal aantal apparaten groter is dan 0
 	}
 	private async Task GetUserInfo()
 	{
 		try//probeer dit uit te voeren:
 		{
-			var values = "{\"pincode\":\"" + Data.pin + "\", \"bcode\":\"" + Data.bcode + "\"}";//JSON object aanmaken
+			var values = "{\"pincode\":\"" + Data.pin + "\", \"bcode\":\"" + Data.bcode + "\",\"key\":\"" + Data.key + "\"}";//JSON object aanmaken
 			JObject json = JObject.Parse(values);
 			var jsonString = JsonConvert.SerializeObject(json);//omvormen naar JSON object
 			var content = new StringContent(values, Encoding.UTF8, "application/json");//zeggen tegen server wat content type het is
@@ -82,35 +73,34 @@ public partial class Dashboard : Window
 		{
 			gebruikersnaam.Text = "Er ging iets mis";//IPV gebruikersnaam "er ging iets mis tonen"
 		}
-
 	}
 
-	private void Button_Click_1(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+	private void Button_Click_1(object? sender, Avalonia.Interactivity.RoutedEventArgs e)//log uit
 	{
 		MainWindow window = new MainWindow();
 		window.Show();
 		this.Close();
 	}
 
-	private void ViewBeurtenbtn(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+	private void ViewBeurtenbtn(object? sender, Avalonia.Interactivity.RoutedEventArgs e)//bekijk beurten
 	{
 		BeurtenBekijken beurtenBekijken = new BeurtenBekijken();
 		beurtenBekijken.Show();
 		this.Close();
 	}
-	private void ViewGBeurtenbtn(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+	private void ViewGBeurtenbtn(object? sender, Avalonia.Interactivity.RoutedEventArgs e)//bekijk gast beurten
 	{
 		GastBuertenBekijken beurtenBekijken = new GastBuertenBekijken();
 		beurtenBekijken.Show();
 		this.Close();
 	}
-	private void addBeurt_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+	private void addBeurt_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)//voeg beurt toe
 	{
 		AddBeurt addBeurt = new AddBeurt();
 		addBeurt.Show();
 		this.Close();
 	}
-	private void addGBeurt_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+	private void addGBeurt_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)//voeg gast beurt toe
 	{
 		AddGBeurt addGBeurt = new AddGBeurt();
 		addGBeurt.Show();

@@ -15,9 +15,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using Avalonia.Interactivity;
-
 namespace GIP_av;
-
 public partial class BeurtenBekijken : Window
 {
 	ObservableCollection<BEURTINFO> BeurtenGRID { get; set; } = new ObservableCollection<BEURTINFO>();//in top of code
@@ -35,7 +33,7 @@ public partial class BeurtenBekijken : Window
 	}
 	private async Task getUserInfo()
 	{
-		var values = "{\"pincode\":\""+Data.pin + "\", \"bcode\":\""+Data.bcode + "\"}";//maak JSON object
+		var values = "{\"pincode\":\""+Data.pin + "\", \"bcode\":\""+Data.bcode + "\",\"key\":\"" + Data.key + "\"}";//maak JSON object
 		JObject json = JObject.Parse(values);
 		var jsonString = JsonConvert.SerializeObject(json);//omvormen naar JSON
 		var content = new StringContent(values, Encoding.UTF8, "application/json");//zeggen wat de content is tegen de server
@@ -94,7 +92,6 @@ public partial class BeurtenBekijken : Window
 		else{
 			return data + " GB";
 		}
-
 	}
 	class BEURTINFO
 	{
@@ -133,14 +130,12 @@ public partial class BeurtenBekijken : Window
 		public string password { get; set; }//wachtwoord
 		public string data { get; set; }//data
 	}
-
 	private void Sluiten_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
 	{
 		Dashboard da= new Dashboard();
 		da.Show();
 		this.Close();
 	}
-
 	protected virtual void  filterChk_CheckedChanged(object? sender, Avalonia.Interactivity.RoutedEventArgs e)//als de checkbox aangevinkt is
 	{
 		Debug.WriteLine("clicked show only valid");

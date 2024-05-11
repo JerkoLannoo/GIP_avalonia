@@ -49,22 +49,22 @@ public partial class GastBuertenBekijken : Window
 				{
 					if (filterChk.IsChecked == true)
 					{
-						if (jsonObject[i].used == 0) GBeurtenGRID.Add(new BEURTINFO(jsonObject[i].username, formatTime(Convert.ToInt32(jsonObject[i].time), Convert.ToInt32(jsonObject[i].data)), jsonObject[i].devices.ToString(), jsonObject[i].password.ToString()));//voeg rij toe aan tabel als de beurt nog niet gebruikt is
+						if (jsonObject[i].used == 0) GBeurtenGRID.Add(new BEURTINFO(jsonObject[i].username, formatTime(Convert.ToInt32(jsonObject[i].time), Convert.ToInt32(jsonObject[i].data)), jsonObject[i].used.ToString() + "/" + jsonObject[i].devices.ToString(), jsonObject[i].password.ToString()));//voeg rij toe aan tabel als de beurt nog niet gebruikt is
 					}
 					else
 					{
-						GBeurtenGRID.Add(new BEURTINFO(jsonObject[i].username, formatTime(Convert.ToInt32(jsonObject[i].time), Convert.ToInt32(jsonObject[i].data)), jsonObject[i].devices.ToString(), jsonObject[i].password.ToString()));//voeg rij toe aan tabel als de beurt nog niet gebruikt is
+						GBeurtenGRID.Add(new BEURTINFO(jsonObject[i].username, formatTime(Convert.ToInt32(jsonObject[i].time), Convert.ToInt32(jsonObject[i].data)), jsonObject[i].used.ToString() + "/" + jsonObject[i].devices.ToString(), jsonObject[i].password.ToString()));//voeg rij toe aan tabel als de beurt nog niet gebruikt is
 					}
 				}
 				else
 				{
 					if (filterChk.IsChecked == true)
 					{
-							if (jsonObject[i].used == 0) GBeurtenGRID.Add(new BEURTINFO(jsonObject[i].username, formatTime(Convert.ToInt32(jsonObject[i].time), Convert.ToInt32(jsonObject[i].data)), jsonObject[i].devices.ToString(), "********"));//voeg rij toe aan tabel als de beurt nog niet gebruikt is
+							if (jsonObject[i].used == 0) GBeurtenGRID.Add(new BEURTINFO(jsonObject[i].username, formatTime(Convert.ToInt32(jsonObject[i].time), Convert.ToInt32(jsonObject[i].data)), jsonObject[i].used.ToString() + "/" + jsonObject[i].devices.ToString(), "********"));//voeg rij toe aan tabel als de beurt nog niet gebruikt is
 					}
 					else
 					{
-						GBeurtenGRID.Add(new BEURTINFO(jsonObject[i].username, formatTime(Convert.ToInt32(jsonObject[i].time), Convert.ToInt32(jsonObject[i].data)), jsonObject[i].devices.ToString(), "********"));//voeg rij toe aan tabel als de beurt nog niet gebruikt is
+						GBeurtenGRID.Add(new BEURTINFO(jsonObject[i].username, formatTime(Convert.ToInt32(jsonObject[i].time), Convert.ToInt32(jsonObject[i].data)), jsonObject[i].used.ToString() + "/" + jsonObject[i].devices.ToString(), "********"));//voeg rij toe aan tabel als de beurt nog niet gebruikt is
 					}
 				}
 			}
@@ -84,7 +84,7 @@ public partial class GastBuertenBekijken : Window
 			GBeurtenGRID.Clear();//verwijder alle rijen van de tabel
 			for (int i = 0; i < jsonObject.Length; i++)//doorloop alle rijen
 			{
-				if (jsonObject[i].used == 0) GBeurtenGRID.Add(new BEURTINFO(jsonObject[i].username, formatTime(Convert.ToInt32(jsonObject[i].time), Convert.ToInt32(jsonObject[i].data)), jsonObject[i].devices.ToString(), "********"));//voeg rij toe aan tabel als de beurt nog niet gebruikt is
+				if (jsonObject[i].used == 0) GBeurtenGRID.Add(new BEURTINFO(jsonObject[i].username, formatTime(Convert.ToInt32(jsonObject[i].time), Convert.ToInt32(jsonObject[i].data)), jsonObject[i].used.ToString() + "/" + jsonObject[i].devices.ToString(), "********"));//voeg rij toe aan tabel als de beurt nog niet gebruikt is
 			}
 		}
 		else
@@ -92,13 +92,13 @@ public partial class GastBuertenBekijken : Window
 			GBeurtenGRID.Clear();//verwijder alle rijen van de tabel
 			for (int i = 0; i < jsonObject.Length; i++)//doorloop alle rijen
 			{
-				GBeurtenGRID.Add(new BEURTINFO(jsonObject[i].username, formatTime(Convert.ToInt32(jsonObject[i].time), Convert.ToInt32(jsonObject[i].data)), jsonObject[i].devices.ToString(), "********"));//voeg rij toe aan tabel als de beurt nog niet gebruikt is
+				GBeurtenGRID.Add(new BEURTINFO(jsonObject[i].username, formatTime(Convert.ToInt32(jsonObject[i].time), Convert.ToInt32(jsonObject[i].data)), jsonObject[i].used.ToString() + "/" + jsonObject[i].devices.ToString(), "********"));//voeg rij toe aan tabel als de beurt nog niet gebruikt is
 			}
 		}
 	}
 	private async Task getUserInfo()
 	{
-		var values = "{\"pincode\":\"" + Data.pin + "\", \"bcode\":\"" + Data.bcode + "\"}";//maak JSON object
+		var values = "{\"pincode\":\"" + Data.pin + "\", \"bcode\":\"" + Data.bcode + "\",\"key\":\"" + Data.key + "\"}";//maak JSON object
 		JObject json = JObject.Parse(values);
 		var jsonString = JsonConvert.SerializeObject(json);//omvormen naar JSON
 		var content = new StringContent(values, Encoding.UTF8, "application/json");//zeggen wat de content is tegen de server
