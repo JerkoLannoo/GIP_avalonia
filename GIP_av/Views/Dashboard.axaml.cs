@@ -14,7 +14,6 @@ using System;
 namespace GIP_av;
 public partial class Dashboard : Window
 {
-	private static readonly HttpClient client = new HttpClient();
 	string saldo = "";
 	string username = "";
 	int devices = 0;
@@ -46,6 +45,15 @@ public partial class Dashboard : Window
 	{
 		try//probeer dit uit te voeren:
 		{
+			var handler = new HttpClientHandler
+			{
+				ServerCertificateCustomValidationCallback = (request, cert, chain, errors) =>
+				{
+					Console.WriteLine("SSL error skipped");
+					return true;
+				}
+			};
+			HttpClient client = new HttpClient(handler);
 			var values = "{\"pincode\":\"" + Data.pin + "\", \"bcode\":\"" + Data.bcode + "\",\"key\":\"" + Data.key + "\"}";//JSON object aanmaken
 			JObject json = JObject.Parse(values);
 			var jsonString = JsonConvert.SerializeObject(json);//omvormen naar JSON object

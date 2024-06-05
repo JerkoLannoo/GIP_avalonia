@@ -1,3 +1,4 @@
+
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
@@ -15,6 +16,12 @@ using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using SkiaSharp.QrCode.Image;
 using SkiaSharp;
+using System.Net.Http;
+using SocketIO;
+using Microsoft.VisualBasic.FileIO;
+using System.Net.Sockets;
+using SocketIOClient;
+using System.Net.WebSockets;
 //using System.Windows.Media.ImageSource;
 namespace GIP_av;
 
@@ -22,9 +29,9 @@ public partial class AccountToevoegen : Window
 {
 	public string server_address = Data.server_address;//definieer server adres
 	public AccountToevoegen()
-    {
-        InitializeComponent();
-    }
+	{
+		InitializeComponent();
+	}
 	private void StackPanel_Loaded(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
 	{
 		Debug.WriteLine("loaded...");
@@ -46,14 +53,32 @@ public partial class AccountToevoegen : Window
 		});
 		client.On("scan-status", response =>//als de gebruiker de QR-code gescant heeft:
 		{
-			text = response.GetValue<string>();
-			Debug.WriteLine("received code: " + text);
+			text = response.GetValue<string>();//lees code uit (overbodig)
+			Debug.WriteLine("received code: " + text + " (scan-status)");
 			Dispatcher.UIThread.Post(() =>
 			{
-				info.Text = "Voer de gegevens in op uw apparaat.";
+				info.Text = "Vul de gegevens in op je apparaat.";
 				code.Text = "";
 				qrcodeIMG.IsVisible = false;
 			});
+		});
+		client.On("send-status", response =>//als de gebruiker de gegevens heeft ingevuld:
+		{
+			text = response.GetValue<string>();
+			Debug.WriteLine("received code: " + text+" (send-status)");
+			Dispatcher.UIThread.Post(() =>
+			{
+				info.Text = "Kijk in uw mailbox voor een verificatie link. Dit venster sluit over 5 seconden.";
+				code.Text = "";
+				qrcodeIMG.IsVisible = false;
+			});
+			Thread.Sleep(5000);
+			Dispatcher.UIThread.Post(() =>//toewijzen aan andere thread
+			{
+				MainWindow window = new MainWindow();
+				window.Show();
+			});
+			Dispatcher.UIThread.Post(() => this.Close());
 		});
 		client.On("end-connection", response =>//eindig de verbinding:
 		{
@@ -61,7 +86,7 @@ public partial class AccountToevoegen : Window
 			Debug.WriteLine("received code: " + text);
 			Dispatcher.UIThread.Post(() =>
 			{
-				info.Text = "Kijk in uw mailbox voor een verificatie link. Dit venster sluit over 5 seconden.";
+				info.Text = "Deze QR-code is vervallen. Dit venster sluit over 5 seconden.";
 				code.Text = "";
 				qrcodeIMG.IsVisible = false;
 			});
@@ -78,12 +103,12 @@ public partial class AccountToevoegen : Window
 			await client.EmitAsync("get-code", Data.bcode, Data.key);//vraag om code aan server
 			Debug.WriteLine("request send");
 		};
-		 client.ConnectAsync();//wacht totdat hij verbonden is met server
+		client.ConnectAsync();//wacht totdat hij verbonden is met server
 	}
 	private void createQRCode(string code)//QR code aanmaken
 	{
 		Debug.WriteLine("generating code");
-		QrCode qrCode = new QrCode("https://gip.jerkolannoo.com/register/remote-registration?code="+code, new Vector2Slim(256, 256), SKEncodedImageFormat.Png);
+		QrCode qrCode = new QrCode("https://gip.jerkolannoo.com/register/remote-registration?code=" + code, new Vector2Slim(256, 256), SKEncodedImageFormat.Png);
 		Debug.WriteLine("code generated");
 		MemoryStream stream = new MemoryStream();//geen "using memorystream" gebruiken omdat de QR code anders niet geladen kan worden van de Bitmap
 		qrCode.GenerateImage(stream);

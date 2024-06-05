@@ -18,7 +18,6 @@ public partial class AddGBeurt : Window
 {
 	PRIJZEN[] prijzen;
 	SUCCESS success;
-	private static readonly HttpClient client = new HttpClient();
 	public AddGBeurt()
     {
 		this.DataContext = this;
@@ -37,6 +36,15 @@ public partial class AddGBeurt : Window
 	{
 		try
 		{
+			var handler = new HttpClientHandler
+			{
+				ServerCertificateCustomValidationCallback = (request, cert, chain, errors) =>
+				{
+					Console.WriteLine("SSL error skipped");
+					return true;
+				}
+			};
+			HttpClient client = new HttpClient(handler);
 			var response = await client.GetAsync(Data.server_address + "/get-prijzen");//get request maken
 			Debug.WriteLine("fetching");
 			var responseString = await response.Content.ReadAsStringAsync();//response opslaan als string
@@ -61,6 +69,15 @@ public partial class AddGBeurt : Window
 		addBtn.IsEnabled = false;
 		try//proberen aanvraag naar server te versturen
 		{
+			var handler = new HttpClientHandler
+			{
+				ServerCertificateCustomValidationCallback = (request, cert, chain, errors) =>
+				{
+					Console.WriteLine("SSL error skipped");
+					return true;
+				}
+			};
+			HttpClient client = new HttpClient(handler);
 			var values = "{\"pincode\":\"" + Data.pin + "\", \"bcode\":\"" + Data.bcode + "\", \"duration\":\"" + formatTime((decimal)duration.Value) + "\", \"devices\":\"" + devices.Text + "\", \"adblock\":\"" + adblockBtn.IsChecked + "\", \"key\":\"" + Data.key + "\"}";//JSON object
 			JObject json = JObject.Parse(values);//omvormer naar JSON
 			var jsonString = JsonConvert.SerializeObject(json);

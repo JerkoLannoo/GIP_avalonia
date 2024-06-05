@@ -21,7 +21,6 @@ public partial class GastBuertenBekijken : Window
 	ObservableCollection<BEURTINFO> GBeurtenGRID { get; set; } = new ObservableCollection<BEURTINFO>();//in top of code
 	public int beurtenGridSelected { get; set; }
 	JSON[] jsonObject;
-	private static readonly HttpClient client = new HttpClient();
 	public GastBuertenBekijken()
     {
 		DataContext = this;
@@ -84,7 +83,7 @@ public partial class GastBuertenBekijken : Window
 			GBeurtenGRID.Clear();//verwijder alle rijen van de tabel
 			for (int i = 0; i < jsonObject.Length; i++)//doorloop alle rijen
 			{
-				if (jsonObject[i].used == 0) GBeurtenGRID.Add(new BEURTINFO(jsonObject[i].username, formatTime(Convert.ToInt32(jsonObject[i].time), Convert.ToInt32(jsonObject[i].data)), jsonObject[i].used.ToString() + "/" + jsonObject[i].devices.ToString(), "********"));//voeg rij toe aan tabel als de beurt nog niet gebruikt is
+				if (jsonObject[i].used < jsonObject[i].devices) GBeurtenGRID.Add(new BEURTINFO(jsonObject[i].username, formatTime(Convert.ToInt32(jsonObject[i].time), Convert.ToInt32(jsonObject[i].data)), jsonObject[i].used.ToString() + "/" + jsonObject[i].devices.ToString(), "********"));//voeg rij toe aan tabel als de beurt nog niet gebruikt is
 			}
 		}
 		else
@@ -98,6 +97,15 @@ public partial class GastBuertenBekijken : Window
 	}
 	private async Task getUserInfo()
 	{
+		var handler = new HttpClientHandler
+		{
+			ServerCertificateCustomValidationCallback = (request, cert, chain, errors) =>
+			{
+				Console.WriteLine("SSL error skipped");
+				return true;
+			}
+		};
+		HttpClient client = new HttpClient(handler);
 		var values = "{\"pincode\":\"" + Data.pin + "\", \"bcode\":\"" + Data.bcode + "\",\"key\":\"" + Data.key + "\"}";//maak JSON object
 		JObject json = JObject.Parse(values);
 		var jsonString = JsonConvert.SerializeObject(json);//omvormen naar JSON

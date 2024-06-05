@@ -20,7 +20,6 @@ public partial class BeurtenBekijken : Window
 {
 	ObservableCollection<BEURTINFO> BeurtenGRID { get; set; } = new ObservableCollection<BEURTINFO>();//in top of code
 	JSON[] jsonObject;
-	private static readonly HttpClient client = new HttpClient();
 	public BeurtenBekijken()
     {
 		DataContext = this;
@@ -33,6 +32,15 @@ public partial class BeurtenBekijken : Window
 	}
 	private async Task getUserInfo()
 	{
+		var handler = new HttpClientHandler
+		{
+			ServerCertificateCustomValidationCallback = (request, cert, chain, errors) =>
+			{
+				Console.WriteLine("SSL error skipped");
+				return true;
+			}
+		};
+		HttpClient client = new HttpClient(handler);
 		var values = "{\"pincode\":\""+Data.pin + "\", \"bcode\":\""+Data.bcode + "\",\"key\":\"" + Data.key + "\"}";//maak JSON object
 		JObject json = JObject.Parse(values);
 		var jsonString = JsonConvert.SerializeObject(json);//omvormen naar JSON
@@ -144,7 +152,7 @@ public partial class BeurtenBekijken : Window
 			BeurtenGRID.Clear();//verwijder alle rijen van de tabel
 			for (int i = 0; i < jsonObject.Length; i++)//doorloop alle rijen
 			{
-				if (jsonObject[i].used == 0) BeurtenGRID.Add(new BEURTINFO(jsonObject[i].username, formatTime(Convert.ToInt32(jsonObject[i].time), Convert.ToInt32(jsonObject[i].data)), jsonObject[i].devices.ToString()));//voeg rij toe aan tabel als de beurt nog niet gebruikt is
+				if (jsonObject[i].used < jsonObject[i].devices) BeurtenGRID.Add(new BEURTINFO(jsonObject[i].username, formatTime(Convert.ToInt32(jsonObject[i].time), Convert.ToInt32(jsonObject[i].data)), jsonObject[i].used.ToString()+"/" +jsonObject[i].devices.ToString()));//voeg rij toe aan tabel als de beurt nog niet gebruikt is
 			}
 		}
 		else
@@ -152,7 +160,7 @@ public partial class BeurtenBekijken : Window
 			BeurtenGRID.Clear();//verwijder alle rijen van de tabel
 			for (int i = 0; i < jsonObject.Length; i++)//doorloop alle rijen
 			{
-				BeurtenGRID.Add(new BEURTINFO(jsonObject[i].username, formatTime(Convert.ToInt32(jsonObject[i].time), Convert.ToInt32(jsonObject[i].data)), jsonObject[i].devices.ToString()));//voeg rij toe aan tabel als de beurt nog niet gebruikt is
+				BeurtenGRID.Add(new BEURTINFO(jsonObject[i].username, formatTime(Convert.ToInt32(jsonObject[i].time), Convert.ToInt32(jsonObject[i].data)), jsonObject[i].used.ToString() + "/" + jsonObject[i].devices.ToString()));//voeg rij toe aan tabel als de beurt nog niet gebruikt is
 			}
 		}
 	}

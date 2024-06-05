@@ -23,7 +23,6 @@ public partial class PIN : Window
 	public bool login = false;
 	string pincode = "";
 	byte status = 0;
-	private static readonly HttpClient client = new HttpClient();
 	public PIN()
     {
         InitializeComponent();
@@ -36,6 +35,15 @@ public partial class PIN : Window
 	{
 		try//probeer eerst dit:
 		{
+			var handler = new HttpClientHandler
+			{
+				ServerCertificateCustomValidationCallback = (request, cert, chain, errors) =>
+				{
+					Console.WriteLine("SSL error skipped");
+					return true;
+				}
+			};
+			HttpClient client = new HttpClient(handler);
 			info.Text = "Wacht even...";//verander tekst
 			var values = "{\"pincode\":\"" + pin.Text + "\", \"bcode\":\"" + Data.bcode + "\",\"key\":\"" + Data.key + "\"}";//maak JSON object
 			Debug.WriteLine(values);
@@ -83,6 +91,15 @@ public partial class PIN : Window
 	{
 		try//probeer eerst dit:
 		{
+			var handler = new HttpClientHandler
+			{
+				ServerCertificateCustomValidationCallback = (request, cert, chain, errors) =>
+				{
+					Console.WriteLine("SSL error skipped");
+					return true;
+				}
+			};
+			HttpClient client = new HttpClient(handler);
 			info.Text = "Wacht even...";//verander tekst
 			var values = "{\"bcode\":\"" + Data.bcode + "\"}";//maak JSON object
 			Debug.WriteLine(values);

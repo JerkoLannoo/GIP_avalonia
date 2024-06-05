@@ -21,7 +21,6 @@ public partial class MainWindow : Window
 {
 	SerialPort sport = new SerialPort();
 	public string code = "";
-	private static readonly HttpClient client = new HttpClient();
 	bool login = false;
 	int status = 0;
 	public MainWindow()
@@ -30,6 +29,7 @@ public partial class MainWindow : Window
     }
 	private void Grid_Loaded_1(object? sender, Avalonia.Interactivity.RoutedEventArgs e)//als de grid geladen wordt zoeken we naar de NFC reader
 	{
+		SendInfo();
 		DeviceList devices = DeviceList.Local;
 		sport.BaudRate = 9600;
 		string dev = "";
@@ -67,6 +67,15 @@ public partial class MainWindow : Window
 		info.Text = "Wacht even...";
 		try//probeer dit:
 		{
+			var handler = new HttpClientHandler
+			{
+				ServerCertificateCustomValidationCallback = (request, cert, chain, errors) =>
+				{
+					Console.WriteLine("SSL error skipped");
+					return true;
+				}
+			};
+			HttpClient client = new HttpClient(handler);
 			Debug.WriteLine(Data.bcode);
 			string values = "{\"bcode\":\"" + Data.bcode + "\",\"key\":\"" + Data.key + "\"}";//maak JSON string
 			JObject json = JObject.Parse(values);
@@ -135,8 +144,8 @@ public partial class MainWindow : Window
 }
 public class Data //globaal opslaan van data
 {
-	static public string bcode = "";//barcode
-	static public string server_address = "https://192.168.100.3:443";//IP-adres van server
+	static public string bcode = "D4 C8 02 2A";//barcode
+	static public string server_address = "http://192.168.100.3";//IP-adres van server
 	static public string key = "TG9KNHRJRDhSaUtMcjdueFZRU1RUREU5ZEs3a1Zo";
 	static public int pin;//pin-code
 	static public int doubleTap;//snel registreren (hier wordt MAC-adres in opgeslagen)
